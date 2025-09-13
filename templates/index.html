@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+        <h1 class="display-4 mb-4">Enemy Vehicle & Soldier Detection</h1>
+        <p class="lead">Upload an image to detect vehicles and soldiers using our trained AI model.</p>
+        
+        <div class="mt-5">
+            <a href="{{ url_for('upload') }}" class="btn btn-primary btn-lg">
+                Start Detection
+            </a>
+        </div>
+        
+        <div class="mt-5">
+            <h3>Features</h3>
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <h5>🚗 Vehicle Detection</h5>
+                    <p>Detect various types of vehicles in images</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>👤 Soldier Detection</h5>
+                    <p>Identify personnel and soldiers</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>🎯 High Accuracy</h5>
+                    <p>Powered by XGBoost machine learning</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="text-center mb-4">Upload Image for Detection</h2>
+        
+        <form method="POST" action="{{ url_for('predict') }}" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="file" class="form-label">Choose Image File</label>
+                <input type="file" class="form-control" id="file" name="file" 
+                       accept=".png,.jpg,.jpeg,.gif" required>
+                <div class="form-text">Supported formats: PNG, JPG, JPEG, GIF (Max: 16MB)</div>
+            </div>
+            
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    Analyze Image
+                </button>
+            </div>
+        </form>
+        
+        <div id="preview" class="mt-4" style="display: none;">
+            <h5>Preview:</h5>
+            <img id="preview-img" src="" alt="Preview" class="img-fluid rounded">
+        </div>
+    </div>
+</div>
+{% endblock %}

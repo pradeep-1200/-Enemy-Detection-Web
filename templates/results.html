@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <h3>Uploaded Image</h3>
+        <img src="{{ image_url }}" alt="Uploaded Image" class="img-fluid rounded">
+        
+        {% if result.image_info %}
+        <div class="mt-3">
+            <h6>Image Properties:</h6>
+            <small class="text-muted">
+                Size: {{ result.image_info.width }}×{{ result.image_info.height }} | 
+                Aspect Ratio: {{ "%.2f"|format(result.image_info.aspect_ratio) }}
+            </small>
+        </div>
+        {% endif %}
+        
+        <div class="mt-3">
+            <a href="{{ url_for('upload') }}" class="btn btn-secondary">Upload Another</a>
+            <a href="{{ url_for('cleanup', filename=filename) }}" class="btn btn-outline-danger">Clean Up</a>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <h3>Detection Results</h3>
+        
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title text-center">
+                    <span class="badge bg-primary fs-6">{{ result.class_name.title() }}</span>
+                </h5>
+                <p class="card-text text-center">
+                    <strong>Confidence:</strong> 
+                    <span class="text-success fs-5">{{ "%.1f"|format(result.confidence * 100) }}%</span>
+                </p>
+                
+                <h6 class="mt-4">All Detection Probabilities:</h6>
+                <ul class="list-group">
+                    {% for class_name, prob in result.probabilities.items() %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center 
+                        {% if class_name == result.class_name %}list-group-item-success{% endif %}">
+                        <span class="fw-medium">{{ class_name.title() }}</span>
+                        <span class="badge {% if class_name == result.class_name %}bg-success{% else %}bg-secondary{% endif %} rounded-pill fs-6">
+                            {{ "%.1f"|format(prob * 100) }}%
+                        </span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        
+        <div class="mt-3">
+            <!-- Show which model is actually being used -->
+            {% if result.model_used == "REAL_TRAINED_MODEL" %}
+                <div class="alert alert-success">
+                    <strong>🤖 Real AI Model Active!</strong> Using your trained machine learning model.
+                    {% if result.features_extracted %}
+                        <br><small>Features extracted: {{ result.features_extracted }}</small>
+                    {% endif %}
+                </div>
+            {% elif result.model_used == "INTELLIGENT_SIMULATION" %}
+                <div class="alert alert-info">
+                    <strong>🧠 Smart Analysis Active.</strong> Using intelligent image analysis.
+                </div>
+            {% else %}
+                <div class="alert alert-warning">
+                    <strong>⚠️ Demo Mode Active.</strong> Using simulated predictions.
+                </div>
+            {% endif %}
+            
+            {% if result.confidence > 0.75 %}
+                <div class="alert alert-success mt-2">
+                    <strong>High Confidence!</strong> Very confident in this detection.
+                </div>
+            {% elif result.confidence > 0.5 %}
+                <div class="alert alert-warning mt-2">
+                    <strong>Moderate Confidence.</strong> Results may vary with different images.
+                </div>
+            {% else %}
+                <div class="alert alert-danger mt-2">
+                    <strong>Low Confidence.</strong> Consider using a clearer image.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
