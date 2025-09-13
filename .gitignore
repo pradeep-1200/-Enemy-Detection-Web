@@ -35,8 +35,7 @@ static/uploads/*
 !static/uploads/.gitkeep
 
 # Models (these are large files)
-models/*.joblib
-models/*.pkl
+
 
 # Environment variables
 .env
